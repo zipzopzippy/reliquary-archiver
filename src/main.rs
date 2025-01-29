@@ -47,6 +47,9 @@ struct Args {
     /// Github Auth token to use when checking for updates, only applicable on Windows
     #[arg(long)]
     auth_token: Option<String>,
+    /// Skip enter to close at end of imported
+    #[arg(long)]
+    skip_enter: bool,
 }
 
 fn main() {
@@ -94,8 +97,10 @@ fn main() {
         info!("wrote logs to {}", log_path.display());
     }
 
-    info!("press enter to close");
-    std::io::stdin().read_line(&mut String::new()).unwrap();
+    if !args.skip_enter {
+        info!("press enter to close");
+        std::io::stdin().read_line(&mut String::new()).unwrap();
+    }
 }
 
 #[cfg(windows)]
